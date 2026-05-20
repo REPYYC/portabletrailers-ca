@@ -27,6 +27,10 @@ export type RoutePage = {
   group: PageGroup;
   intent: string;
   sections: string[];
+  bestFor: string[];
+  watchOut: string[];
+  quotePrompts: string[];
+  leadPath: string;
 };
 
 export type Category = {
@@ -35,6 +39,7 @@ export type Category = {
   icon: LucideIcon;
   bestFor: string;
   compare: string;
+  fitTags: string[];
 };
 
 export const primaryCta = 'Get trailer quotes near me';
@@ -46,6 +51,7 @@ export const categories: Category[] = [
     icon: PackageCheck,
     bestFor: 'tools, moving, mobile services, powersports, and weather-protected cargo',
     compare: 'Utility trailers cost less, but enclosed trailers protect gear and can support shelving, branding, and locks.',
+    fitTags: ['weather protection', 'tool security', 'moving', 'mobile business'],
   },
   {
     name: 'Utility trailers',
@@ -53,6 +59,7 @@ export const categories: Category[] = [
     icon: Truck,
     bestFor: 'yard cleanup, acreage runs, lumber, ATVs, and general hauling',
     compare: 'Open decks are easier to load from the side, but cargo is exposed to weather and road spray.',
+    fitTags: ['general hauling', 'acreage', 'yard work', 'budget-friendly'],
   },
   {
     name: 'Dump trailers',
@@ -60,6 +67,7 @@ export const categories: Category[] = [
     icon: HardHat,
     bestFor: 'gravel, soil, demolition debris, landscaping, and construction cleanup',
     compare: 'A dump trailer can save labour, but tow vehicle capacity, hydraulic systems, and payload ratings matter.',
+    fitTags: ['gravel', 'soil', 'construction', 'landscaping'],
   },
   {
     name: 'Flatdeck trailers',
@@ -67,6 +75,7 @@ export const categories: Category[] = [
     icon: Cable,
     bestFor: 'pallets, equipment, hay, skids, farm supplies, and side loading',
     compare: 'Flatdecks suit awkward cargo, while enclosed or utility trailers may be better for smaller mixed loads.',
+    fitTags: ['side loading', 'pallets', 'farm', 'equipment'],
   },
   {
     name: 'Equipment trailers',
@@ -74,6 +83,7 @@ export const categories: Category[] = [
     icon: Hammer,
     bestFor: 'skid steers, compact tractors, mini excavators, and rental equipment',
     compare: 'Match ramp style, deck height, axle rating, brakes, tie-downs, and GVWR before shopping.',
+    fitTags: ['machinery', 'contractors', 'ramps', 'heavy loads'],
   },
   {
     name: 'Car hauler trailers',
@@ -81,6 +91,7 @@ export const categories: Category[] = [
     icon: CarFront,
     bestFor: 'project cars, collector vehicles, auction buys, and dealership transport',
     compare: 'Open car haulers are lighter and cheaper; enclosed haulers add protection and security.',
+    fitTags: ['vehicles', 'low ramps', 'tie-downs', 'transport'],
   },
   {
     name: 'Landscape trailers',
@@ -88,6 +99,7 @@ export const categories: Category[] = [
     icon: Sprout,
     bestFor: 'mowers, trimmers, blowers, bins, mulch, and lawn care routes',
     compare: 'Think through gate width, tool racks, side rails, daily loading, and commercial durability.',
+    fitTags: ['mowers', 'lawn care', 'tool racks', 'daily loading'],
   },
   {
     name: 'Trailer rentals',
@@ -95,6 +107,7 @@ export const categories: Category[] = [
     icon: MapPinned,
     bestFor: 'one-time moves, weekend projects, temporary equipment needs, and seasonal jobs',
     compare: 'Renting reduces storage and maintenance, but availability, deposits, insurance, and tow setup can vary.',
+    fitTags: ['short-term', 'moving', 'seasonal', 'no storage'],
   },
 ];
 
@@ -165,13 +178,20 @@ const prettyTitle = (slug: string) =>
     .replaceAll('-', ' ')
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
 
-const groupCopy: Record<PageGroup, Pick<RoutePage, 'kicker' | 'summary' | 'intent' | 'sections'>> = {
+const groupCopy: Record<
+  PageGroup,
+  Pick<RoutePage, 'kicker' | 'summary' | 'intent' | 'sections' | 'bestFor' | 'watchOut' | 'quotePrompts' | 'leadPath'>
+> = {
   category: {
     kicker: 'Trailer category guide',
     summary:
       'Compare common uses, sizing questions, cost factors, rental fit, financing fit, and quote details before contacting a local trailer business.',
     intent: 'Category pages are built to capture shoppers comparing trailer types before they choose a dealer, rental company, repair shop, or finance partner.',
     sections: ['Best uses', 'Common sizes', 'New vs used considerations', 'Rental and financing fit', 'Questions to ask a dealer'],
+    bestFor: ['Comparing trailer styles', 'Shortlisting dealers or rental yards', 'Planning accessories, ramps, brakes, and tie-downs'],
+    watchOut: ['Payload after trailer weight', 'Door, gate, and ramp clearance', 'Tow vehicle limits and hitch setup'],
+    quotePrompts: ['Primary load or job type', 'Estimated load weight', 'Tow vehicle year/make/model', 'Preferred province or city'],
+    leadPath: 'Dealer, rental, financing, parts, and service leads',
   },
   buyer: {
     kicker: 'High-intent buying guide',
@@ -179,6 +199,10 @@ const groupCopy: Record<PageGroup, Pick<RoutePage, 'kicker' | 'summary' | 'inten
       'Match the job to trailer type, capacity, loading style, weather protection, towing setup, and total ownership cost.',
     intent: 'Buyer-intent pages help visitors self-qualify by job type, then move them toward quotes, rentals, financing, parts, or service.',
     sections: ['Recommended trailer types', 'Capacity checklist', 'Cost factors', 'When to rent instead', 'Quote request checklist'],
+    bestFor: ['Matching a trailer to a job', 'Comparing ownership vs rental', 'Building a quote-ready checklist'],
+    watchOut: ['Buying for occasional peak use', 'Underestimating cargo weight', 'Ignoring storage, insurance, and maintenance'],
+    quotePrompts: ['What you need to haul', 'How often you will use it', 'Whether buying, renting, or financing makes sense', 'Timeline'],
+    leadPath: 'High-intent buyer, rental, and finance leads',
   },
   safety: {
     kicker: 'Canadian towing and safety guide',
@@ -186,6 +210,10 @@ const groupCopy: Record<PageGroup, Pick<RoutePage, 'kicker' | 'summary' | 'inten
       'Plain-English safety education with links to official sources. Rules can vary by province, weight, trailer use, and registration class.',
     intent: 'Safety pages build trust and organic search reach while sending users to qualified dealers, service shops, insurers, and authorities for final confirmation.',
     sections: ['What to verify', 'Weight ratings', 'Brakes and lights', 'Loading and maintenance', 'Official source links'],
+    bestFor: ['Learning towing vocabulary', 'Preparing questions for a dealer or mechanic', 'Understanding why provincial verification matters'],
+    watchOut: ['Assuming rules are identical across Canada', 'Relying on internet summaries as legal advice', 'Skipping brake, light, tire, and bearing checks'],
+    quotePrompts: ['Province of operation', 'Registered or estimated trailer weight', 'Tow vehicle setup', 'Service or inspection needs'],
+    leadPath: 'Service, parts, dealer, insurance, and compliance-adjacent leads',
   },
 };
 
@@ -218,6 +246,17 @@ export const provinces = [
   'Yukon',
 ];
 
+export const provinceMarkets = [
+  { province: 'Alberta', cities: ['Calgary', 'Edmonton', 'Red Deer', 'Lethbridge', 'Grande Prairie'], emphasis: 'contractors, acreage owners, oilfield support, landscaping, and powersports' },
+  { province: 'British Columbia', cities: ['Vancouver', 'Surrey', 'Kelowna', 'Victoria', 'Prince George'], emphasis: 'moving, trades, rural properties, recreation, and equipment hauling' },
+  { province: 'Saskatchewan', cities: ['Saskatoon', 'Regina', 'Prince Albert', 'Moose Jaw'], emphasis: 'farm, acreage, construction, and utility trailer demand' },
+  { province: 'Manitoba', cities: ['Winnipeg', 'Brandon', 'Steinbach', 'Thompson'], emphasis: 'cargo, snowmobile, utility, and contractor trailer demand' },
+  { province: 'Ontario', cities: ['Toronto', 'Ottawa', 'Hamilton', 'London', 'Kitchener'], emphasis: 'moving, contractors, landscape businesses, powersports, and mobile services' },
+  { province: 'Quebec', cities: ['Montreal', 'Quebec City', 'Laval', 'Gatineau', 'Sherbrooke'], emphasis: 'cargo, utility, equipment, rental, and service demand' },
+  { province: 'Atlantic Canada', cities: ['Halifax', 'Moncton', 'Saint John', "St. John's", 'Charlottetown'], emphasis: 'rural, small business, recreation, moving, and repair demand' },
+  { province: 'Northern Canada', cities: ['Whitehorse', 'Yellowknife', 'Iqaluit'], emphasis: 'remote hauling, utility, cargo, service, and parts demand' },
+];
+
 export const useCases = [
   { title: 'Moving and storage', icon: Home, detail: 'Enclosed and cargo trailers for boxes, furniture, tools, and weather-sensitive loads.' },
   { title: 'Contractors', icon: HardHat, detail: 'Equipment, dump, enclosed, and flatdeck trailers for jobsite hauling and tool security.' },
@@ -225,6 +264,67 @@ export const useCases = [
   { title: 'Small business', icon: Building2, detail: 'Mobile service, delivery, landscaping, market, repair, and seasonal business setups.' },
   { title: 'Repairs and parts', icon: Wrench, detail: 'Brakes, lights, tires, bearings, hitches, ramps, floors, doors, wiring, and inspections.' },
   { title: 'Financing and rentals', icon: BadgeDollarSign, detail: 'Quote paths for buying, renting, leasing, financing, and comparing ownership costs.' },
+];
+
+export const jobProfiles = [
+  {
+    title: 'Acreage owner',
+    recommended: 'Utility, dump, flatdeck, small equipment, or deckover trailer',
+    signals: ['yard cleanup', 'firewood', 'acreage supplies', 'ATV or side-by-side hauling'],
+  },
+  {
+    title: 'Landscape crew',
+    recommended: 'Landscape, enclosed, utility, dump, or equipment trailer',
+    signals: ['mowers', 'tool racks', 'mulch', 'soil', 'daily loading'],
+  },
+  {
+    title: 'Contractor',
+    recommended: 'Enclosed, equipment, dump, flatdeck, or cargo trailer',
+    signals: ['tool security', 'jobsite materials', 'machines', 'debris'],
+  },
+  {
+    title: 'Moving or storage',
+    recommended: 'Enclosed, cargo, or rental trailer',
+    signals: ['weather protection', 'short-term use', 'door height', 'tie-downs'],
+  },
+  {
+    title: 'Powersports',
+    recommended: 'ATV, snowmobile, motorcycle, enclosed, or utility trailer',
+    signals: ['ramp angle', 'deck width', 'salt protection', 'tie-down points'],
+  },
+  {
+    title: 'Mobile business',
+    recommended: 'Enclosed, cargo, custom, or financing-ready trailer',
+    signals: ['branding', 'shelving', 'power needs', 'insurance'],
+  },
+];
+
+export const costFactors = [
+  'Trailer type and construction',
+  'Axle count and GVWR',
+  'Deck length, width, and height',
+  'Brakes, tires, suspension, and wheels',
+  'Ramp, gate, door, and side-loading options',
+  'Weather protection, insulation, shelving, or custom buildout',
+  'Financing terms, delivery, registration, insurance, and service',
+];
+
+export const leadPackages = [
+  {
+    name: 'City lease',
+    fit: 'One verified dealer, rental yard, service shop, or finance partner owns the primary CTA path for a city.',
+    inventory: 'No fake listings required. Leads are routed by shopper intent and location.',
+  },
+  {
+    name: 'Category sponsor',
+    fit: 'A partner sponsors a trailer type such as enclosed, dump, utility, landscape, or equipment trailers.',
+    inventory: 'Useful for specialists who want category-level demand rather than broad local exposure.',
+  },
+  {
+    name: 'Service lane',
+    fit: 'Repair shops, parts stores, hitch installers, brake shops, tire shops, and inspection providers capture safety traffic.',
+    inventory: 'Pairs well with safety, maintenance, brake, lighting, hitch, and registration pages.',
+  },
 ];
 
 export const ctaCards = [

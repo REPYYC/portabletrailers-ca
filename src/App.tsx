@@ -3,6 +3,7 @@ import {
   BadgeCheck,
   Calculator,
   ChevronRight,
+  CheckCircle2,
   ClipboardList,
   ExternalLink,
   MapPin,
@@ -11,12 +12,16 @@ import {
   ShieldAlert,
   Sparkles,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   categories,
+  costFactors,
   ctaCards,
+  jobProfiles,
+  leadPackages,
   officialSources,
   primaryCta,
+  provinceMarkets,
   provinces,
   routePages,
   safetySlugs,
@@ -40,12 +45,12 @@ function Header() {
         </span>
       </a>
       <nav aria-label="Primary navigation">
-        <a href="#trailer-finder">Types</a>
-        <a href="#dealers-by-province">Local dealers</a>
-        <a href="#safety">Safety</a>
-        <a href="#partner">Partners</a>
+        <a href="/#trailer-finder">Types</a>
+        <a href="/#dealers-by-province">Local dealers</a>
+        <a href="/#safety">Safety</a>
+        <a href="/#partner">Partners</a>
       </nav>
-      <a className="header-cta" href="#quote">
+      <a className="header-cta" href="/#quote">
         <Search size={18} />
         Quotes near me
       </a>
@@ -60,16 +65,16 @@ function Header() {
       </button>
       {menuOpen && (
         <div className="mobile-menu">
-          <a href="#trailer-finder" onClick={() => setMenuOpen(false)}>
+          <a href="/#trailer-finder" onClick={() => setMenuOpen(false)}>
             Compare trailer types
           </a>
-          <a href="#dealers-by-province" onClick={() => setMenuOpen(false)}>
+          <a href="/#dealers-by-province" onClick={() => setMenuOpen(false)}>
             Find local dealers
           </a>
-          <a href="#safety" onClick={() => setMenuOpen(false)}>
+          <a href="/#safety" onClick={() => setMenuOpen(false)}>
             Check towing basics
           </a>
-          <a href="#quote" onClick={() => setMenuOpen(false)}>
+          <a href="/#quote" onClick={() => setMenuOpen(false)}>
             {primaryCta}
           </a>
         </div>
@@ -185,6 +190,66 @@ function QuickCtas() {
   );
 }
 
+function TrailerMatchTool() {
+  const [job, setJob] = useState(jobProfiles[0].title);
+  const [priority, setPriority] = useState('Weather protection');
+  const selectedProfile = useMemo(() => jobProfiles.find((profile) => profile.title === job) ?? jobProfiles[0], [job]);
+  const matchedCategories = useMemo(
+    () =>
+      categories.filter((category) =>
+        category.fitTags.some((tag) =>
+          [...selectedProfile.signals, priority].some((signal) => tag.toLowerCase().includes(signal.toLowerCase().split(' ')[0])),
+        ),
+      ),
+    [priority, selectedProfile],
+  );
+
+  return (
+    <section className="section match-section">
+      <div>
+        <span className="eyebrow plain">Trailer Type Finder</span>
+        <h2>Help shoppers self-qualify before they ask for quotes</h2>
+        <p>
+          This tool turns a broad visitor into a more useful lead by tying their job, buying priority, and likely trailer
+          types together before the form.
+        </p>
+      </div>
+      <div className="match-tool">
+        <label>
+          Shopper profile
+          <select value={job} onChange={(event) => setJob(event.target.value)}>
+            {jobProfiles.map((profile) => (
+              <option key={profile.title}>{profile.title}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Main priority
+          <select value={priority} onChange={(event) => setPriority(event.target.value)}>
+            <option>Weather protection</option>
+            <option>Lowest total cost</option>
+            <option>Heavy payload</option>
+            <option>Fast loading</option>
+            <option>Tool security</option>
+            <option>Short-term rental</option>
+          </select>
+        </label>
+        <div className="match-result">
+          <strong>{selectedProfile.recommended}</strong>
+          <p>Common signals: {selectedProfile.signals.join(', ')}.</p>
+          <div className="pill-row">
+            {(matchedCategories.length ? matchedCategories : categories.slice(0, 3)).slice(0, 4).map((category) => (
+              <a href={category.slug} key={category.slug}>
+                {category.name}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function BuyingGuides() {
   const guideBlocks = [
     {
@@ -277,10 +342,25 @@ function ProvinceDealers() {
       />
       <div className="province-grid">
         {provinces.map((province) => (
-          <a href={`/#quote?province=${encodeURIComponent(province)}`} key={province}>
+          <a href={`/?province=${encodeURIComponent(province)}#quote`} key={province}>
             <MapPin size={17} />
             {province}
           </a>
+        ))}
+      </div>
+      <div className="market-grid">
+        {provinceMarkets.map((market) => (
+          <article className="market-card" key={market.province}>
+            <h3>{market.province}</h3>
+            <p>{market.emphasis}</p>
+            <div className="pill-row">
+              {market.cities.map((city) => (
+                <a href={`/?city=${encodeURIComponent(city)}#quote`} key={city}>
+                  {city}
+                </a>
+              ))}
+            </div>
+          </article>
         ))}
       </div>
     </section>
@@ -307,11 +387,27 @@ function CostAndUseCases() {
           );
         })}
       </div>
+      <div className="cost-panel">
+        <h3>Quote variables to collect before a partner call</h3>
+        <div className="cost-factor-grid">
+          {costFactors.map((factor) => (
+            <span key={factor}>
+              <CheckCircle2 size={17} />
+              {factor}
+            </span>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
 
 function QuoteForm() {
+  const [submitted, setSubmitted] = useState(false);
+  const query = new URLSearchParams(window.location.search);
+  const initialProvince = query.get('province') ?? '';
+  const initialCity = query.get('city') ?? '';
+
   return (
     <section id="quote" className="section quote-section">
       <div>
@@ -322,7 +418,13 @@ function QuoteForm() {
           It asks for intent, province, timeline, tow vehicle, and trailer type before handoff.
         </p>
       </div>
-      <form className="lead-form">
+      <form
+        className="lead-form"
+        onSubmit={(event) => {
+          event.preventDefault();
+          setSubmitted(true);
+        }}
+      >
         <label>
           What do you need?
           <select defaultValue="">
@@ -348,7 +450,7 @@ function QuoteForm() {
         </label>
         <label>
           Province
-          <select defaultValue="">
+          <select defaultValue={initialProvince}>
             <option value="" disabled>
               Choose province
             </option>
@@ -373,10 +475,24 @@ function QuoteForm() {
           Notes
           <textarea placeholder="Load, tow vehicle, budget range, city, rental dates, or repair issue" />
         </label>
-        <button className="button primary wide" type="button">
+        <label>
+          City or nearest market
+          <input defaultValue={initialCity} placeholder="Example: Calgary, Edmonton, Saskatoon" />
+        </label>
+        <label>
+          Contact email or phone
+          <input placeholder="Where should a partner reply?" />
+        </label>
+        <button className="button primary wide" type="submit">
           {primaryCta}
           <ArrowRight size={19} />
         </button>
+        {submitted && (
+          <p className="form-status wide">
+            Lead captured locally for prototype review. Connect this form to Lovable, a CRM, email, or partner routing
+            workflow before launch.
+          </p>
+        )}
       </form>
     </section>
   );
@@ -402,6 +518,15 @@ function PartnerSection() {
             </span>
           ),
         )}
+      </div>
+      <div className="package-grid">
+        {leadPackages.map((item) => (
+          <article key={item.name}>
+            <h3>{item.name}</h3>
+            <p>{item.fit}</p>
+            <small>{item.inventory}</small>
+          </article>
+        ))}
       </div>
       <a className="button secondary" href="#quote">
         Dealers: lease this city / claim your area
@@ -441,6 +566,7 @@ function HomePage() {
     <>
       <Hero />
       <QuickCtas />
+      <TrailerMatchTool />
       <TrailerFinder />
       <BuyingGuides />
       <SafetySection />
@@ -497,10 +623,40 @@ function ContentPage() {
               </span>
             ))}
           </div>
+          <div className="page-deep-grid">
+            <div>
+              <h3>Best for</h3>
+              <ul>
+                {activePage.bestFor.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3>Watch out for</h3>
+              <ul>
+                {activePage.watchOut.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="quote-prompt-panel">
+            <h3>What this page should ask before routing the lead</h3>
+            <div className="cost-factor-grid">
+              {activePage.quotePrompts.map((prompt) => (
+                <span key={prompt}>
+                  <CheckCircle2 size={17} />
+                  {prompt}
+                </span>
+              ))}
+            </div>
+          </div>
         </article>
         <aside>
           <h3>Lead quality checklist</h3>
           <p>Ask every shopper for location, trailer use, load weight, tow vehicle, timeline, and whether they need buying, rental, financing, parts, or repair help.</p>
+          <strong>{activePage.leadPath}</strong>
           <a href="/#quote">Send this visitor to quote intake</a>
         </aside>
       </section>
@@ -523,6 +679,21 @@ function Footer() {
 
 export default function App() {
   const isHome = currentPath === '/';
+
+  useEffect(() => {
+    const title = activePage
+      ? `${activePage.title} | PortableTrailers.ca`
+      : 'Portable Trailers Canada | Compare, Buy, Rent & Finance Trailers';
+    document.title = title;
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute(
+        'content',
+        activePage
+          ? activePage.summary
+          : 'PortableTrailers.ca helps Canadians compare, buy, rent, finance, repair, and choose portable trailers with plain-English towing and safety guidance.',
+      );
+  }, []);
 
   return (
     <>
