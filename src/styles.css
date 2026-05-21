@@ -827,6 +827,18 @@ details p {
   margin-top: 18px;
 }
 
+.local-market-panel {
+  margin-top: 18px;
+  padding: 20px;
+  border: 1px solid rgba(47, 95, 137, 0.18);
+  border-radius: 8px;
+  background: #eef4f8;
+}
+
+.local-market-panel p {
+  margin-bottom: 0;
+}
+
 .footer {
   display: flex;
   align-items: center;

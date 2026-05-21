@@ -33,6 +33,8 @@ This is a Vite + React + TypeScript project with content-driven routes in `src/s
 
 The app avoids fake inventory, fake dealers, fake prices, fake reviews, scraped listings, and unverified legal claims. Safety pages use educational language and link users to official sources for final confirmation.
 
+Local market pages are generated from `provinceMarkets` in `src/siteData.ts`. They are written as quote-routing and partner-leasing pages, not dealer directories, until verified partners are onboarded.
+
 ## Source-Backed Safety Links
 
 - Transport Canada trailer lighting equipment location requirements

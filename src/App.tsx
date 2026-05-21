@@ -19,6 +19,7 @@ import {
   ctaCards,
   jobProfiles,
   leadPackages,
+  localMarketPages,
   officialSources,
   primaryCta,
   provinceMarkets,
@@ -31,6 +32,17 @@ import {
 const currentPath = window.location.pathname;
 const activePage = routePages.find((page) => page.slug === currentPath);
 const featuredSafetyPages = routePages.filter((page) => safetySlugs.includes(page.slug)).slice(0, 6);
+
+const marketQuoteHref = (market?: string) => {
+  if (!market) {
+    return '/#quote';
+  }
+
+  const queryKey = provinces.includes(market) ? 'province' : 'city';
+  return `/?${queryKey}=${encodeURIComponent(market)}#quote`;
+};
+
+const localPageFor = (market: string) => localMarketPages.find((page) => page.market === market);
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -342,7 +354,7 @@ function ProvinceDealers() {
       />
       <div className="province-grid">
         {provinces.map((province) => (
-          <a href={`/?province=${encodeURIComponent(province)}#quote`} key={province}>
+          <a href={localPageFor(province)?.slug ?? `/?province=${encodeURIComponent(province)}#quote`} key={province}>
             <MapPin size={17} />
             {province}
           </a>
@@ -355,7 +367,7 @@ function ProvinceDealers() {
             <p>{market.emphasis}</p>
             <div className="pill-row">
               {market.cities.map((city) => (
-                <a href={`/?city=${encodeURIComponent(city)}#quote`} key={city}>
+                <a href={localPageFor(city)?.slug ?? `/?city=${encodeURIComponent(city)}#quote`} key={city}>
                   {city}
                 </a>
               ))}
@@ -602,7 +614,7 @@ function ContentPage() {
         <h1>{activePage.title}</h1>
         <p>{activePage.summary}</p>
         <div className="hero-actions">
-          <a className="button primary" href="/#quote">
+          <a className="button primary" href={activePage.group === 'local' ? marketQuoteHref(activePage.market) : '/#quote'}>
             {primaryCta}
             <ArrowRight size={19} />
           </a>
@@ -652,12 +664,31 @@ function ContentPage() {
               ))}
             </div>
           </div>
+          {activePage.group === 'local' && (
+            <div className="local-market-panel">
+              <h3>{activePage.market} local trailer lead page</h3>
+              <p>
+                This page is ready for a verified partner, but it does not invent local businesses. Until a dealer,
+                rental yard, shop, parts store, or finance company leases this market, shoppers are sent through quote
+                intake.
+              </p>
+              {activePage.cityList && (
+                <div className="pill-row">
+                  {activePage.cityList.map((market) => (
+                    <a href={localPageFor(market)?.slug ?? marketQuoteHref(market)} key={market}>
+                      {market}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </article>
         <aside>
           <h3>Lead quality checklist</h3>
           <p>Ask every shopper for location, trailer use, load weight, tow vehicle, timeline, and whether they need buying, rental, financing, parts, or repair help.</p>
           <strong>{activePage.leadPath}</strong>
-          <a href="/#quote">Send this visitor to quote intake</a>
+          <a href={activePage.group === 'local' ? marketQuoteHref(activePage.market) : '/#quote'}>Send this visitor to quote intake</a>
         </aside>
       </section>
       {activePage.group === 'safety' && <SafetySection />}

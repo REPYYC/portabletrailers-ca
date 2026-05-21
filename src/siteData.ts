@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
-export type PageGroup = 'category' | 'buyer' | 'safety';
+export type PageGroup = 'category' | 'buyer' | 'safety' | 'local';
 
 export type RoutePage = {
   slug: string;
@@ -31,6 +31,8 @@ export type RoutePage = {
   watchOut: string[];
   quotePrompts: string[];
   leadPath: string;
+  market?: string;
+  cityList?: string[];
 };
 
 export type Category = {
@@ -215,6 +217,17 @@ const groupCopy: Record<
     quotePrompts: ['Province of operation', 'Registered or estimated trailer weight', 'Tow vehicle setup', 'Service or inspection needs'],
     leadPath: 'Service, parts, dealer, insurance, and compliance-adjacent leads',
   },
+  local: {
+    kicker: 'Local trailer quote hub',
+    summary:
+      'Find trailer quote paths by market without fake dealer listings. Request local buying, rental, financing, repair, or parts help from verified partners when available.',
+    intent: 'Local pages are designed for city and province search traffic while protecting trust by avoiding invented dealers, inventory, prices, and reviews.',
+    sections: ['Local trailer demand', 'Quote routing', 'Partner leasing options', 'No fake listings', 'Next-step checklist'],
+    bestFor: ['Finding local quote help', 'Comparing buy, rent, finance, repair, and parts paths', 'Understanding which partner type should respond'],
+    watchOut: ['Assuming every city has a live partner yet', 'Treating quote estimates as listed inventory', 'Skipping tow vehicle and load details'],
+    quotePrompts: ['City or nearest market', 'Trailer type', 'Buy, rent, finance, repair, or parts intent', 'Timeline and contact method'],
+    leadPath: 'Local dealer, rental, finance, repair, and parts leads',
+  },
 };
 
 const buildPage = (slug: string, group: PageGroup): RoutePage => ({
@@ -223,12 +236,6 @@ const buildPage = (slug: string, group: PageGroup): RoutePage => ({
   group,
   ...groupCopy[group],
 });
-
-export const routePages: RoutePage[] = [
-  ...allCategorySlugs.map((slug) => buildPage(slug, 'category')),
-  ...buyerSlugs.map((slug) => buildPage(slug, 'buyer')),
-  ...safetySlugs.map((slug) => buildPage(slug, 'safety')),
-];
 
 export const provinces = [
   'Alberta',
@@ -255,6 +262,44 @@ export const provinceMarkets = [
   { province: 'Quebec', cities: ['Montreal', 'Quebec City', 'Laval', 'Gatineau', 'Sherbrooke'], emphasis: 'cargo, utility, equipment, rental, and service demand' },
   { province: 'Atlantic Canada', cities: ['Halifax', 'Moncton', 'Saint John', "St. John's", 'Charlottetown'], emphasis: 'rural, small business, recreation, moving, and repair demand' },
   { province: 'Northern Canada', cities: ['Whitehorse', 'Yellowknife', 'Iqaluit'], emphasis: 'remote hauling, utility, cargo, service, and parts demand' },
+];
+
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/'/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+
+export const localMarketPages: RoutePage[] = provinceMarkets.flatMap((market) => {
+  const provincePage: RoutePage = {
+    ...groupCopy.local,
+    group: 'local',
+    slug: `/trailer-dealers-${slugify(market.province)}/`,
+    title: `${market.province} Trailer Dealers, Rentals, Financing, Parts and Repair`,
+    summary: `Compare trailer quote paths across ${market.province}. This page is built for ${market.emphasis}, with no fake dealers, inventory, prices, or reviews.`,
+    market: market.province,
+    cityList: market.cities,
+  };
+
+  const cityPages = market.cities.map<RoutePage>((city) => ({
+    ...groupCopy.local,
+    group: 'local',
+    slug: `/trailer-dealers-${slugify(city)}/`,
+    title: `${city} Trailer Dealers, Rentals, Financing, Parts and Repair`,
+    summary: `Request trailer quotes around ${city} for buying, rentals, financing, repair, or parts. Partner placement is verified before any dealer, shop, rental yard, or finance company is named.`,
+    market: city,
+    cityList: [city, market.province],
+  }));
+
+  return [provincePage, ...cityPages];
+});
+
+export const routePages: RoutePage[] = [
+  ...allCategorySlugs.map((slug) => buildPage(slug, 'category')),
+  ...buyerSlugs.map((slug) => buildPage(slug, 'buyer')),
+  ...safetySlugs.map((slug) => buildPage(slug, 'safety')),
+  ...localMarketPages,
 ];
 
 export const useCases = [
