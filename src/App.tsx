@@ -13,6 +13,11 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
+import dumpTrailerImg from './assets/trailers/dump-trailer.webp';
+import enclosedTrailerImg from './assets/trailers/enclosed-cargo-trailer.webp';
+import flatdeckTrailerImg from './assets/trailers/flatdeck-equipment-trailer.webp';
+import landscapeTrailerImg from './assets/trailers/landscape-trailer.webp';
+import utilityTrailerImg from './assets/trailers/utility-trailer.webp';
 import {
   categories,
   costFactors,
@@ -32,6 +37,49 @@ import {
 const currentPath = window.location.pathname;
 const activePage = routePages.find((page) => page.slug === currentPath);
 const featuredSafetyPages = routePages.filter((page) => safetySlugs.includes(page.slug)).slice(0, 6);
+
+const trailerExamples = [
+  {
+    name: 'Enclosed cargo trailer',
+    slug: '/enclosed-trailers/',
+    image: enclosedTrailerImg,
+    use: 'Moving, tool storage, powersports, mobile service, and weather-protected hauling',
+    specs: ['Single or tandem axle', 'Side door and rear ramp options', 'Shelving, E-track, vents, and roof height upgrades'],
+    lead: 'Best lead paths: dealer, financing, mobile business buildout, parts',
+  },
+  {
+    name: 'Open utility trailer',
+    slug: '/utility-trailers/',
+    image: utilityTrailerImg,
+    use: 'Acreage work, yard cleanup, dump runs, ATVs, lumber, and general hauling',
+    specs: ['Wood or steel deck', 'Mesh ramp gate', 'Tie-down points, spare tire, side rails'],
+    lead: 'Best lead paths: dealer, rental, parts, hitch setup',
+  },
+  {
+    name: 'Dump trailer',
+    slug: '/dump-trailers/',
+    image: dumpTrailerImg,
+    use: 'Gravel, soil, demolition debris, landscaping, contractor cleanup, and acreage projects',
+    specs: ['Hydraulic lift', 'Barn door or spreader gate', 'Battery, charger, tarp, and brake options'],
+    lead: 'Best lead paths: dealer, financing, contractor, repair',
+  },
+  {
+    name: 'Flatdeck equipment trailer',
+    slug: '/equipment-trailers/',
+    image: flatdeckTrailerImg,
+    use: 'Skid steers, compact tractors, mini excavators, pallets, farm supplies, and equipment rental',
+    specs: ['Beavertail or tilt options', 'Ramps and stake pockets', 'GVWR, payload, brakes, and tire rating checks'],
+    lead: 'Best lead paths: dealer, financing, rental yard, service',
+  },
+  {
+    name: 'Landscape trailer',
+    slug: '/landscape-trailers/',
+    image: landscapeTrailerImg,
+    use: 'Mowers, trimmers, blowers, bins, mulch, seasonal crews, and lawn care routes',
+    specs: ['Mesh gate', 'Tool racks and basket', 'Side rails, brakes, lighting, and daily loading layout'],
+    lead: 'Best lead paths: dealer, small business finance, parts, repair',
+  },
+];
 
 const marketQuoteHref = (market?: string) => {
   if (!market) {
@@ -119,6 +167,7 @@ function Hero() {
         </div>
       </div>
       <div className="hero-panel" aria-label="Trailer shopping tools">
+        <img className="hero-trailer-image" src={enclosedTrailerImg} alt="Enclosed cargo trailer illustration" />
         <div className="tool-card strong">
           <Calculator size={27} />
           <span>Trailer fit score</span>
@@ -198,6 +247,92 @@ function QuickCtas() {
           </a>
         );
       })}
+    </section>
+  );
+}
+
+function ProductShowcase() {
+  return (
+    <section className="section product-section">
+      <SectionHeader
+        eyebrow="Popular Trailer Configurations"
+        title="Illustrated trailer examples shoppers can compare before they call"
+        copy="These are product-style examples, not live inventory. A leased city or category partner can replace them with verified stock, rental units, financing offers, or service packages."
+      />
+      <div className="product-grid">
+        {trailerExamples.map((trailer) => (
+          <article className="product-card" key={trailer.name}>
+            <a className="product-image-link" href={trailer.slug}>
+              <img src={trailer.image} alt={`${trailer.name} illustration`} loading="lazy" />
+            </a>
+            <div className="product-copy">
+              <span>Example configuration</span>
+              <h3>{trailer.name}</h3>
+              <p>{trailer.use}</p>
+              <ul>
+                {trailer.specs.map((spec) => (
+                  <li key={spec}>{spec}</li>
+                ))}
+              </ul>
+              <small>{trailer.lead}</small>
+              <a className="text-link" href={trailer.slug}>
+                Compare this trailer type
+                <ArrowRight size={16} />
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function relatedTrailersFor(pageTitle: string) {
+  const lowerTitle = pageTitle.toLowerCase();
+  const matches = trailerExamples.filter((trailer) => lowerTitle.includes(trailer.name.split(' ')[0].toLowerCase()));
+
+  if (matches.length) {
+    return [...matches, ...trailerExamples.filter((trailer) => !matches.includes(trailer))].slice(0, 3);
+  }
+
+  if (lowerTitle.includes('landscap') || lowerTitle.includes('lawn')) {
+    return trailerExamples.filter((trailer) => ['Landscape trailer', 'Dump trailer', 'Open utility trailer'].includes(trailer.name));
+  }
+
+  if (lowerTitle.includes('contractor') || lowerTitle.includes('construction') || lowerTitle.includes('equipment')) {
+    return trailerExamples.filter((trailer) => ['Flatdeck equipment trailer', 'Dump trailer', 'Enclosed cargo trailer'].includes(trailer.name));
+  }
+
+  if (lowerTitle.includes('moving') || lowerTitle.includes('mobile')) {
+    return trailerExamples.filter((trailer) => ['Enclosed cargo trailer', 'Open utility trailer', 'Landscape trailer'].includes(trailer.name));
+  }
+
+  return trailerExamples.slice(0, 3);
+}
+
+function RelatedProductStrip({ pageTitle }: { pageTitle: string }) {
+  return (
+    <section className="section compact-products">
+      <SectionHeader
+        eyebrow="Trailer Examples"
+        title="Product-style examples for this search"
+        copy="These illustrations help shoppers visualize trailer options before a verified partner adds real inventory, rental units, or finance offers."
+      />
+      <div className="product-grid">
+        {relatedTrailersFor(pageTitle).map((trailer) => (
+          <article className="product-card" key={trailer.name}>
+            <a className="product-image-link" href={trailer.slug}>
+              <img src={trailer.image} alt={`${trailer.name} illustration`} loading="lazy" />
+            </a>
+            <div className="product-copy">
+              <span>Illustrated example</span>
+              <h3>{trailer.name}</h3>
+              <p>{trailer.use}</p>
+              <small>{trailer.lead}</small>
+            </div>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }
@@ -578,6 +713,7 @@ function HomePage() {
     <>
       <Hero />
       <QuickCtas />
+      <ProductShowcase />
       <TrailerMatchTool />
       <TrailerFinder />
       <BuyingGuides />
@@ -691,6 +827,7 @@ function ContentPage() {
           <a href={activePage.group === 'local' ? marketQuoteHref(activePage.market) : '/#quote'}>Send this visitor to quote intake</a>
         </aside>
       </section>
+      <RelatedProductStrip pageTitle={activePage.title} />
       {activePage.group === 'safety' && <SafetySection />}
     </main>
   );

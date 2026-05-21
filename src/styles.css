@@ -268,6 +268,16 @@ p {
   box-shadow: var(--shadow);
 }
 
+.hero-trailer-image {
+  display: block;
+  width: 100%;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #f7f6ef;
+}
+
 .tool-card {
   padding: 22px;
   border-radius: 8px;
@@ -508,6 +518,91 @@ details,
 
 .use-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.product-section {
+  background: #f4f5ee;
+}
+
+.compact-products {
+  background: var(--white);
+}
+
+.compact-products .product-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.product-card {
+  display: flex;
+  min-height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  box-shadow: 0 12px 28px rgba(23, 33, 27, 0.06);
+  flex-direction: column;
+}
+
+.product-image-link {
+  display: block;
+  background: #f7f6ef;
+}
+
+.product-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.product-copy {
+  display: flex;
+  gap: 10px;
+  padding: 18px;
+  flex: 1;
+  flex-direction: column;
+}
+
+.product-copy span {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.product-copy p,
+.product-copy ul {
+  margin-bottom: 0;
+}
+
+.product-copy ul {
+  display: grid;
+  gap: 7px;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.product-copy small {
+  color: var(--green-dark);
+  font-weight: 850;
+  line-height: 1.45;
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: auto;
+  color: var(--green);
+  font-weight: 900;
+  text-decoration: none;
 }
 
 .match-section {
@@ -881,7 +976,12 @@ details p {
 
   .quick-ctas,
   .finder-grid,
-  .province-grid {
+  .province-grid,
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .compact-products .product-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -921,11 +1021,16 @@ details p {
   .quick-ctas,
   .finder-grid,
   .province-grid,
+  .product-grid,
   .match-tool,
   .cost-factor-grid,
   .page-deep-grid,
   .lead-form,
   .check-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .compact-products .product-grid {
     grid-template-columns: 1fr;
   }
 
