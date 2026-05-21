@@ -612,6 +612,84 @@ details,
   align-items: start;
 }
 
+.planner-section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(340px, 1fr);
+  gap: clamp(24px, 5vw, 64px);
+  align-items: start;
+  background: var(--white);
+}
+
+.planner-card {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f9faf6;
+}
+
+.planner-inputs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.planner-result {
+  margin-top: 18px;
+  padding: 20px;
+  border-radius: 8px;
+  background: var(--green-dark);
+  color: var(--white);
+}
+
+.planner-result span {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.planner-result strong {
+  display: block;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+.planner-result p {
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.meter {
+  height: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.meter i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--gold);
+}
+
+.planner-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.planner-stats b {
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.09);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
 .match-tool,
 .cost-panel,
 .quote-prompt-panel {
@@ -696,6 +774,41 @@ details,
   border-radius: 8px;
   background: #eef1e8;
   font-weight: 800;
+}
+
+.comparison-section {
+  background: #f4f5ee;
+}
+
+.comparison-table {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.comparison-row {
+  display: grid;
+  grid-template-columns: 0.9fr 1.2fr 1.2fr 1.1fr;
+  gap: 16px;
+  padding: 18px;
+  align-items: start;
+}
+
+.comparison-row + .comparison-row {
+  border-top: 1px solid var(--line);
+}
+
+.comparison-head {
+  color: var(--white);
+  background: var(--green-dark);
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.comparison-row p {
+  margin: 0;
 }
 
 .quote-section,
@@ -810,6 +923,32 @@ textarea {
 .package-grid small {
   color: rgba(255, 255, 255, 0.64);
   line-height: 1.5;
+}
+
+.routing-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.routing-grid article {
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.routing-grid span {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.routing-grid p {
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .form-status {
@@ -934,6 +1073,42 @@ details p {
   margin-bottom: 0;
 }
 
+.launch-section {
+  background: var(--white);
+}
+
+.launch-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.launch-grid article {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f9faf6;
+}
+
+.launch-checklist {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.launch-checklist span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 58px;
+  padding: 13px 14px;
+  border-radius: 8px;
+  color: var(--green-dark);
+  background: #eef1e8;
+  font-weight: 850;
+}
+
 .footer {
   display: flex;
   align-items: center;
@@ -968,6 +1143,7 @@ details p {
 
   .hero-section,
   .match-section,
+  .planner-section,
   .split-section,
   .quote-section,
   .page-content {
@@ -989,7 +1165,16 @@ details p {
   .market-grid,
   .three-col,
   .package-grid,
+  .routing-grid,
+  .launch-grid,
+  .launch-checklist,
   .partner-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .planner-inputs,
+  .planner-stats,
+  .comparison-row {
     grid-template-columns: 1fr;
   }
 
@@ -1023,6 +1208,8 @@ details p {
   .province-grid,
   .product-grid,
   .match-tool,
+  .planner-inputs,
+  .planner-stats,
   .cost-factor-grid,
   .page-deep-grid,
   .lead-form,

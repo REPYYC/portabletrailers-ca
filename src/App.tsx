@@ -20,10 +20,13 @@ import landscapeTrailerImg from './assets/trailers/landscape-trailer.webp';
 import utilityTrailerImg from './assets/trailers/utility-trailer.webp';
 import {
   categories,
+  comparisonRows,
   costFactors,
   ctaCards,
   jobProfiles,
   leadPackages,
+  leadRoutingRows,
+  launchChecklist,
   localMarketPages,
   officialSources,
   primaryCta,
@@ -397,6 +400,70 @@ function TrailerMatchTool() {
   );
 }
 
+function TowingPlanner() {
+  const [towRating, setTowRating] = useState(3500);
+  const [emptyTrailer, setEmptyTrailer] = useState(1200);
+  const [cargoWeight, setCargoWeight] = useState(800);
+  const grossLoad = emptyTrailer + cargoWeight;
+  const remaining = towRating - grossLoad;
+  const capacityUsed = towRating > 0 ? Math.round((grossLoad / towRating) * 100) : 0;
+  const tongueLow = Math.round(grossLoad * 0.1);
+  const tongueHigh = Math.round(grossLoad * 0.15);
+  const status =
+    remaining < 0
+      ? 'Over the tow rating entered'
+      : capacityUsed >= 90
+        ? 'Very tight planning result'
+        : capacityUsed >= 75
+          ? 'Needs careful verification'
+          : 'Looks workable for early planning';
+
+  return (
+    <section className="section planner-section">
+      <div>
+        <span className="eyebrow plain">Towing Capacity Basics</span>
+        <h2>Trailer load planner for quote-ready conversations</h2>
+        <p>
+          This is a planning tool, not a legal or manufacturer approval. Shoppers still need to verify tow rating,
+          payload, hitch rating, axle rating, brakes, tires, registration, insurance, and provincial requirements.
+        </p>
+      </div>
+      <div className="planner-card">
+        <div className="planner-inputs">
+          <label>
+            Tow rating entered
+            <input type="number" value={towRating} onChange={(event) => setTowRating(Number(event.target.value))} />
+          </label>
+          <label>
+            Empty trailer weight
+            <input type="number" value={emptyTrailer} onChange={(event) => setEmptyTrailer(Number(event.target.value))} />
+          </label>
+          <label>
+            Estimated cargo weight
+            <input type="number" value={cargoWeight} onChange={(event) => setCargoWeight(Number(event.target.value))} />
+          </label>
+        </div>
+        <div className="planner-result">
+          <span>{status}</span>
+          <strong>{capacityUsed}% of entered tow rating</strong>
+          <div className="meter" aria-label="Entered tow rating used">
+            <i style={{ width: `${Math.min(Math.max(capacityUsed, 0), 100)}%` }} />
+          </div>
+          <div className="planner-stats">
+            <b>Estimated trailer + cargo: {grossLoad.toLocaleString()} lb</b>
+            <b>Remaining rating entered: {remaining.toLocaleString()} lb</b>
+            <b>Planning tongue-weight check: {tongueLow.toLocaleString()}-{tongueHigh.toLocaleString()} lb</b>
+          </div>
+          <p>
+            Use this to prepare better questions for a dealer, rental company, hitch installer, or repair shop. Final
+            numbers must come from the tow vehicle, trailer, hitch, tire, and provincial authority sources.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function BuyingGuides() {
   const guideBlocks = [
     {
@@ -434,6 +501,34 @@ function BuyingGuides() {
               ))}
             </ul>
           </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ComparisonMatrix() {
+  return (
+    <section className="section comparison-section">
+      <SectionHeader
+        eyebrow="Compare Trailer Types"
+        title="Make the site feel like a buying desk, not a brochure"
+        copy="A shopper can compare common trailer configurations, then route to the right partner lane without seeing fake prices or fake listings."
+      />
+      <div className="comparison-table" role="table" aria-label="Trailer type comparison">
+        <div className="comparison-row comparison-head" role="row">
+          <span>Trailer</span>
+          <span>Best use</span>
+          <span>Buyer question</span>
+          <span>Partner fit</span>
+        </div>
+        {comparisonRows.map((row) => (
+          <div className="comparison-row" role="row" key={row.trailer}>
+            <strong>{row.trailer}</strong>
+            <p>{row.bestUse}</p>
+            <p>{row.buyerQuestion}</p>
+            <p>{row.partnerFit}</p>
+          </div>
         ))}
       </div>
     </section>
@@ -675,9 +770,54 @@ function PartnerSection() {
           </article>
         ))}
       </div>
+      <div className="routing-grid">
+        {leadRoutingRows.map((row) => (
+          <article key={row.intent}>
+            <span>{row.intent}</span>
+            <h3>{row.leadOwner}</h3>
+            <p>{row.dataNeeded}</p>
+          </article>
+        ))}
+      </div>
       <a className="button secondary" href="#quote">
         Dealers: lease this city / claim your area
       </a>
+    </section>
+  );
+}
+
+function LaunchReadySection() {
+  return (
+    <section className="section launch-section">
+      <SectionHeader
+        eyebrow="Launch Ready Partner Asset"
+        title="Built to rebrand, lease, and hand leads to real trailer businesses"
+        copy="The structure is ready for a dealer, rental company, finance provider, repair shop, or parts partner to lease a city, province, category, or service lane."
+      />
+      <div className="launch-grid">
+        <article>
+          <h3>What changes for a partner</h3>
+          <p>
+            Add verified business name, phone number, service area, real offers, approved inventory, financing copy, and
+            routing rules. The core buyer education and lead capture flow can stay intact.
+          </p>
+        </article>
+        <article>
+          <h3>What stays protected</h3>
+          <p>
+            No fake dealers, no fake listings, no invented reviews, no scraped inventory, and no exact legal claims
+            unless they are verified from official provincial or federal sources.
+          </p>
+        </article>
+      </div>
+      <div className="launch-checklist">
+        {launchChecklist.map((item) => (
+          <span key={item}>
+            <CheckCircle2 size={17} />
+            {item}
+          </span>
+        ))}
+      </div>
     </section>
   );
 }
@@ -715,13 +855,16 @@ function HomePage() {
       <QuickCtas />
       <ProductShowcase />
       <TrailerMatchTool />
+      <TowingPlanner />
       <TrailerFinder />
       <BuyingGuides />
+      <ComparisonMatrix />
       <SafetySection />
       <ProvinceDealers />
       <CostAndUseCases />
       <QuoteForm />
       <PartnerSection />
+      <LaunchReadySection />
       <Faq />
     </>
   );

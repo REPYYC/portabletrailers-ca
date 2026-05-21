@@ -372,6 +372,76 @@ export const leadPackages = [
   },
 ];
 
+export const comparisonRows = [
+  {
+    trailer: 'Enclosed cargo trailer',
+    bestUse: 'Tools, moving, weather-protected cargo, mobile service, powersports',
+    buyerQuestion: 'Do you need lockable storage, interior height, shelving, or ramp access?',
+    partnerFit: 'Dealer, finance partner, parts, mobile business buildout',
+  },
+  {
+    trailer: 'Open utility trailer',
+    bestUse: 'Acreage chores, yard cleanup, lumber, ATVs, weekend hauling',
+    buyerQuestion: 'Will the load handle weather exposure and side loading?',
+    partnerFit: 'Dealer, rental yard, hitch shop, parts store',
+  },
+  {
+    trailer: 'Dump trailer',
+    bestUse: 'Gravel, soil, landscaping, demolition debris, contractor cleanup',
+    buyerQuestion: 'What payload, hydraulic setup, gate style, and brake service do you need?',
+    partnerFit: 'Dealer, contractor finance, service shop, rental yard',
+  },
+  {
+    trailer: 'Flatdeck equipment trailer',
+    bestUse: 'Skid steers, compact tractors, pallets, farm supplies, equipment rental',
+    buyerQuestion: 'What is the machine weight, ramp angle, deck height, and tie-down plan?',
+    partnerFit: 'Equipment dealer, finance partner, rental yard, service shop',
+  },
+  {
+    trailer: 'Landscape trailer',
+    bestUse: 'Mowers, trimmers, blowers, mulch, bins, lawn care routes',
+    buyerQuestion: 'How many times per day will the crew load and unload equipment?',
+    partnerFit: 'Dealer, small business finance, parts, repair',
+  },
+];
+
+export const leadRoutingRows = [
+  {
+    intent: 'Buy new or used',
+    leadOwner: 'Trailer dealer or equipment dealer',
+    dataNeeded: 'Trailer type, city, timeline, tow vehicle, load, financing interest',
+  },
+  {
+    intent: 'Rent short term',
+    leadOwner: 'Trailer rental company or equipment rental yard',
+    dataNeeded: 'Dates, trailer type, load, pickup city, tow setup, insurance questions',
+  },
+  {
+    intent: 'Finance or lease',
+    leadOwner: 'Trailer financing company or dealer finance desk',
+    dataNeeded: 'Business/personal use, purchase timeline, trailer type, budget comfort, contact method',
+  },
+  {
+    intent: 'Repair or inspect',
+    leadOwner: 'Trailer repair shop, brake shop, tire shop, RV/trailer service company',
+    dataNeeded: 'Issue, trailer type, urgency, city, symptoms, photos later in CRM',
+  },
+  {
+    intent: 'Parts or accessories',
+    leadOwner: 'Trailer parts store, hitch installer, dealer parts counter',
+    dataNeeded: 'Part needed, trailer type, axle/brake/light details, city, urgency',
+  },
+];
+
+export const launchChecklist = [
+  'Replace example configurations with verified partner inventory only when supplied',
+  'Connect quote intake to CRM, email routing, or Lovable backend actions',
+  'Assign leased cities, categories, or service lanes to real partners',
+  'Add partner phone numbers, service areas, and offers only after verification',
+  'Keep safety pages source-backed and province-specific before making exact rule claims',
+  'Track source page, market, trailer type, intent, and timeline on every lead',
+];
+
 export const ctaCards = [
   { label: 'Compare trailer types', href: '/enclosed-vs-utility-trailer/', icon: ClipboardCheck },
   { label: 'Find local trailer dealers', href: '#dealers-by-province', icon: MapPinned },
