@@ -42,11 +42,12 @@ export type Category = {
   bestFor: string;
   compare: string;
   fitTags: string[];
+  segment?: 'hauling' | 'site' | 'event' | 'service';
 };
 
 export const primaryCta = 'Get trailer quotes near me';
 
-export const categories: Category[] = [
+const haulingTrailerCategories: Category[] = [
   {
     name: 'Enclosed trailers',
     slug: '/enclosed-trailers/',
@@ -54,6 +55,7 @@ export const categories: Category[] = [
     bestFor: 'tools, moving, mobile services, powersports, and weather-protected cargo',
     compare: 'Utility trailers cost less, but enclosed trailers protect gear and can support shelving, branding, and locks.',
     fitTags: ['weather protection', 'tool security', 'moving', 'mobile business'],
+    segment: 'hauling',
   },
   {
     name: 'Utility trailers',
@@ -62,6 +64,7 @@ export const categories: Category[] = [
     bestFor: 'yard cleanup, acreage runs, lumber, ATVs, and general hauling',
     compare: 'Open decks are easier to load from the side, but cargo is exposed to weather and road spray.',
     fitTags: ['general hauling', 'acreage', 'yard work', 'budget-friendly'],
+    segment: 'hauling',
   },
   {
     name: 'Dump trailers',
@@ -70,6 +73,7 @@ export const categories: Category[] = [
     bestFor: 'gravel, soil, demolition debris, landscaping, and construction cleanup',
     compare: 'A dump trailer can save labour, but tow vehicle capacity, hydraulic systems, and payload ratings matter.',
     fitTags: ['gravel', 'soil', 'construction', 'landscaping'],
+    segment: 'hauling',
   },
   {
     name: 'Flatdeck trailers',
@@ -78,6 +82,7 @@ export const categories: Category[] = [
     bestFor: 'pallets, equipment, hay, skids, farm supplies, and side loading',
     compare: 'Flatdecks suit awkward cargo, while enclosed or utility trailers may be better for smaller mixed loads.',
     fitTags: ['side loading', 'pallets', 'farm', 'equipment'],
+    segment: 'hauling',
   },
   {
     name: 'Equipment trailers',
@@ -86,6 +91,7 @@ export const categories: Category[] = [
     bestFor: 'skid steers, compact tractors, mini excavators, and rental equipment',
     compare: 'Match ramp style, deck height, axle rating, brakes, tie-downs, and GVWR before shopping.',
     fitTags: ['machinery', 'contractors', 'ramps', 'heavy loads'],
+    segment: 'hauling',
   },
   {
     name: 'Car hauler trailers',
@@ -94,6 +100,7 @@ export const categories: Category[] = [
     bestFor: 'project cars, collector vehicles, auction buys, and dealership transport',
     compare: 'Open car haulers are lighter and cheaper; enclosed haulers add protection and security.',
     fitTags: ['vehicles', 'low ramps', 'tie-downs', 'transport'],
+    segment: 'hauling',
   },
   {
     name: 'Landscape trailers',
@@ -102,6 +109,7 @@ export const categories: Category[] = [
     bestFor: 'mowers, trimmers, blowers, bins, mulch, and lawn care routes',
     compare: 'Think through gate width, tool racks, side rails, daily loading, and commercial durability.',
     fitTags: ['mowers', 'lawn care', 'tool racks', 'daily loading'],
+    segment: 'hauling',
   },
   {
     name: 'Trailer rentals',
@@ -110,8 +118,176 @@ export const categories: Category[] = [
     bestFor: 'one-time moves, weekend projects, temporary equipment needs, and seasonal jobs',
     compare: 'Renting reduces storage and maintenance, but availability, deposits, insurance, and tow setup can vary.',
     fitTags: ['short-term', 'moving', 'seasonal', 'no storage'],
+    segment: 'hauling',
   },
 ];
+
+export const specialtyTrailerCategories: Category[] = [
+  {
+    name: 'Portable office trailers',
+    slug: '/portable-office-trailers/',
+    icon: Building2,
+    bestFor: 'construction sites, sales offices, temporary admin space, and project management',
+    compare: 'Office trailers are closer to temporary workspace than cargo hauling, so power, heat, desks, steps, permits, and delivery access matter.',
+    fitTags: ['office', 'jobsite', 'temporary workspace', 'construction'],
+    segment: 'site',
+  },
+  {
+    name: 'Mobile office trailers',
+    slug: '/mobile-office-trailers/',
+    icon: Building2,
+    bestFor: 'lease lots, project trailers, site supervisors, security desks, and seasonal operations',
+    compare: 'Compare floor plan, washroom options, HVAC, furniture, skirting, stairs, and delivery setup before requesting quotes.',
+    fitTags: ['office', 'lease', 'site supervisor', 'temporary workspace'],
+    segment: 'site',
+  },
+  {
+    name: 'Jobsite office trailers',
+    slug: '/jobsite-office-trailers/',
+    icon: HardHat,
+    bestFor: 'construction managers, trades, inspectors, estimators, and project meetings',
+    compare: 'A jobsite office trailer should fit the crew count, meeting needs, document storage, power access, and site security plan.',
+    fitTags: ['construction', 'crew', 'project management', 'jobsite'],
+    segment: 'site',
+  },
+  {
+    name: 'Portable bathroom trailers',
+    slug: '/portable-bathroom-trailers/',
+    icon: Home,
+    bestFor: 'events, worksites, outdoor venues, farms, emergency use, and temporary facilities',
+    compare: 'Bathroom trailer quotes should confirm water, waste, power, winter use, cleaning schedule, delivery access, and capacity.',
+    fitTags: ['bathroom', 'event', 'worksite', 'temporary facilities'],
+    segment: 'event',
+  },
+  {
+    name: 'Portable washroom trailers',
+    slug: '/portable-washroom-trailers/',
+    icon: Home,
+    bestFor: 'construction projects, public events, rural sites, and seasonal business operations',
+    compare: 'Washroom trailers can vary by stall count, handwashing setup, fresh water, waste tanks, heat, and service intervals.',
+    fitTags: ['washroom', 'event', 'worksite', 'sanitation'],
+    segment: 'event',
+  },
+  {
+    name: 'Restroom trailers',
+    slug: '/restroom-trailers/',
+    icon: Home,
+    bestFor: 'weddings, festivals, construction sites, emergency response, and outdoor attractions',
+    compare: 'Restroom trailer rentals should clarify capacity, accessibility needs, cleaning, attendants, water, power, and site placement.',
+    fitTags: ['restroom', 'event', 'wedding', 'festival'],
+    segment: 'event',
+  },
+  {
+    name: 'Shower trailers',
+    slug: '/shower-trailers/',
+    icon: Wrench,
+    bestFor: 'remote worksites, emergency response, camps, events, and temporary housing support',
+    compare: 'Confirm water supply, heating, drainage, propane or electrical needs, cleaning schedule, and cold-weather setup.',
+    fitTags: ['shower', 'camp', 'emergency', 'remote worksite'],
+    segment: 'event',
+  },
+  {
+    name: 'Portable storage trailers',
+    slug: '/portable-storage-trailers/',
+    icon: PackageCheck,
+    bestFor: 'jobsites, retail overflow, seasonal storage, farms, moving, and locked material storage',
+    compare: 'Storage trailer needs depend on door style, lock security, deck height, delivery space, loading dock access, and rental term.',
+    fitTags: ['storage', 'jobsite', 'retail overflow', 'materials'],
+    segment: 'site',
+  },
+  {
+    name: 'Storage trailers',
+    slug: '/storage-trailers/',
+    icon: PackageCheck,
+    bestFor: 'temporary inventory, tools, construction materials, equipment, and seasonal business storage',
+    compare: 'Compare rental duration, weather tightness, locks, floor condition, loading access, delivery, and pickup windows.',
+    fitTags: ['storage', 'inventory', 'tools', 'seasonal'],
+    segment: 'site',
+  },
+  {
+    name: 'Lunchroom trailers',
+    slug: '/lunchroom-trailers/',
+    icon: Building2,
+    bestFor: 'construction crews, remote work, industrial sites, farm crews, and temporary staff areas',
+    compare: 'Lunchroom trailers may need tables, heat, power, water, lockers, cleaning, stairs, and placement away from active work zones.',
+    fitTags: ['crew', 'lunchroom', 'jobsite', 'temporary workspace'],
+    segment: 'site',
+  },
+  {
+    name: 'Crew trailers',
+    slug: '/crew-trailers/',
+    icon: HardHat,
+    bestFor: 'crew break areas, shift work, safety meetings, remote projects, and contractor staging',
+    compare: 'Crew trailer quotes should include size, seating, heat, power, lockers, washroom needs, delivery access, and rental term.',
+    fitTags: ['crew', 'jobsite', 'contractor', 'remote work'],
+    segment: 'site',
+  },
+  {
+    name: 'First aid trailers',
+    slug: '/first-aid-trailers/',
+    icon: ShieldCheck,
+    bestFor: 'worksites, events, emergency response, remote projects, and safety stations',
+    compare: 'First aid trailer needs depend on site safety requirements, accessibility, climate control, power, supplies, and staffing.',
+    fitTags: ['first aid', 'safety', 'event', 'worksite'],
+    segment: 'service',
+  },
+  {
+    name: 'Security trailers',
+    slug: '/security-trailers/',
+    icon: ShieldCheck,
+    bestFor: 'construction entrances, parking lots, event gates, industrial sites, and remote monitoring',
+    compare: 'Security trailer quotes should clarify visibility, power, lighting, cameras, heat, desks, washroom needs, and site access.',
+    fitTags: ['security', 'gatehouse', 'site access', 'monitoring'],
+    segment: 'service',
+  },
+  {
+    name: 'Concession trailers',
+    slug: '/concession-trailers/',
+    icon: Truck,
+    bestFor: 'food service, markets, events, festivals, mobile retail, and seasonal businesses',
+    compare: 'Concession trailers may need commercial equipment, permits, health inspection guidance, power, water, sinks, and fire suppression.',
+    fitTags: ['food', 'event', 'mobile business', 'retail'],
+    segment: 'event',
+  },
+  {
+    name: 'Food trailers',
+    slug: '/food-trailers/',
+    icon: Truck,
+    bestFor: 'food trucks without the truck, pop-up kitchens, fairs, markets, and catering operations',
+    compare: 'Food trailer planning should include layout, serving window, equipment load, water, waste, power, propane, and local approval needs.',
+    fitTags: ['food', 'concession', 'mobile business', 'event'],
+    segment: 'event',
+  },
+  {
+    name: 'Mobile business trailers',
+    slug: '/mobile-business-trailers/',
+    icon: BadgeDollarSign,
+    bestFor: 'service businesses, retail pop-ups, repair services, mobile showrooms, and seasonal operations',
+    compare: 'Mobile business trailers need branding, interior buildout, electrical planning, insurance, financing, and service access.',
+    fitTags: ['mobile business', 'retail', 'service', 'custom'],
+    segment: 'service',
+  },
+  {
+    name: 'Event trailers',
+    slug: '/event-trailers/',
+    icon: MapPinned,
+    bestFor: 'festivals, race events, trade shows, outdoor venues, ticketing, staff, washrooms, and storage',
+    compare: 'Event trailer needs are driven by dates, access, power, water, public capacity, staffing, setup time, and cleanup.',
+    fitTags: ['event', 'festival', 'temporary facilities', 'rental'],
+    segment: 'event',
+  },
+  {
+    name: 'Disaster relief trailers',
+    slug: '/disaster-relief-trailers/',
+    icon: ShieldCheck,
+    bestFor: 'emergency response, temporary washrooms, showers, offices, storage, command posts, and support sites',
+    compare: 'Disaster relief trailer planning should include logistics, utilities, accessibility, cleaning, staffing, and agency requirements.',
+    fitTags: ['emergency', 'disaster relief', 'support', 'temporary facilities'],
+    segment: 'service',
+  },
+];
+
+export const categories: Category[] = [...haulingTrailerCategories, ...specialtyTrailerCategories];
 
 export const allCategorySlugs = [
   '/enclosed-trailers/',
@@ -137,6 +313,24 @@ export const allCategorySlugs = [
   '/trailer-financing/',
   '/trailer-parts/',
   '/trailer-repair/',
+  '/portable-office-trailers/',
+  '/mobile-office-trailers/',
+  '/jobsite-office-trailers/',
+  '/portable-bathroom-trailers/',
+  '/portable-washroom-trailers/',
+  '/restroom-trailers/',
+  '/shower-trailers/',
+  '/portable-storage-trailers/',
+  '/storage-trailers/',
+  '/lunchroom-trailers/',
+  '/crew-trailers/',
+  '/first-aid-trailers/',
+  '/security-trailers/',
+  '/concession-trailers/',
+  '/food-trailers/',
+  '/mobile-business-trailers/',
+  '/event-trailers/',
+  '/disaster-relief-trailers/',
 ];
 
 export const buyerSlugs = [
@@ -307,6 +501,8 @@ export const useCases = [
   { title: 'Contractors', icon: HardHat, detail: 'Equipment, dump, enclosed, and flatdeck trailers for jobsite hauling and tool security.' },
   { title: 'Acreage and farm', icon: Sprout, detail: 'Utility, deckover, stock-ready, flatdeck, and dump trailers for rural property work.' },
   { title: 'Small business', icon: Building2, detail: 'Mobile service, delivery, landscaping, market, repair, and seasonal business setups.' },
+  { title: 'Jobsite offices and crew space', icon: Building2, detail: 'Portable offices, crew trailers, lunchroom trailers, security trailers, and first aid stations for temporary sites.' },
+  { title: 'Events and temporary facilities', icon: MapPinned, detail: 'Bathroom, washroom, restroom, shower, concession, food, storage, and support trailers for public or private events.' },
   { title: 'Repairs and parts', icon: Wrench, detail: 'Brakes, lights, tires, bearings, hitches, ramps, floors, doors, wiring, and inspections.' },
   { title: 'Financing and rentals', icon: BadgeDollarSign, detail: 'Quote paths for buying, renting, leasing, financing, and comparing ownership costs.' },
 ];
@@ -341,6 +537,16 @@ export const jobProfiles = [
     title: 'Mobile business',
     recommended: 'Enclosed, cargo, custom, or financing-ready trailer',
     signals: ['branding', 'shelving', 'power needs', 'insurance'],
+  },
+  {
+    title: 'Jobsite office or crew space',
+    recommended: 'Portable office, mobile office, lunchroom, crew, security, or first aid trailer',
+    signals: ['project office', 'crew break area', 'site security', 'temporary workspace'],
+  },
+  {
+    title: 'Event or temporary facilities',
+    recommended: 'Restroom, washroom, bathroom, shower, concession, food, storage, or event trailer',
+    signals: ['guest capacity', 'water and waste', 'power access', 'event dates'],
   },
 ];
 
@@ -403,6 +609,30 @@ export const comparisonRows = [
     buyerQuestion: 'How many times per day will the crew load and unload equipment?',
     partnerFit: 'Dealer, small business finance, parts, repair',
   },
+  {
+    trailer: 'Portable office trailer',
+    bestUse: 'Construction offices, temporary admin, jobsite meetings, project management',
+    buyerQuestion: 'How many people, desks, washrooms, HVAC needs, stairs, and power connections are required?',
+    partnerFit: 'Mobile office rental company, modular supplier, equipment dealer',
+  },
+  {
+    trailer: 'Bathroom, washroom, and restroom trailers',
+    bestUse: 'Events, worksites, weddings, venues, emergency sites, seasonal operations',
+    buyerQuestion: 'What capacity, water, waste, power, cleaning interval, winterization, and accessibility needs apply?',
+    partnerFit: 'Restroom trailer rental company, event supplier, sanitation partner',
+  },
+  {
+    trailer: 'Shower trailer',
+    bestUse: 'Remote worksites, camps, emergency response, temporary housing support, large events',
+    buyerQuestion: 'What water heating, drainage, cleaning, power, propane, and cold-weather setup is needed?',
+    partnerFit: 'Shower trailer rental company, emergency support supplier, event partner',
+  },
+  {
+    trailer: 'Storage and crew support trailers',
+    bestUse: 'Locked material storage, retail overflow, lunchrooms, crew breaks, first aid, security',
+    buyerQuestion: 'Do you need storage, office, lunchroom, safety, or access-control functions on site?',
+    partnerFit: 'Storage trailer rental company, office trailer supplier, safety/service partner',
+  },
 ];
 
 export const leadRoutingRows = [
@@ -415,6 +645,11 @@ export const leadRoutingRows = [
     intent: 'Rent short term',
     leadOwner: 'Trailer rental company or equipment rental yard',
     dataNeeded: 'Dates, trailer type, load, pickup city, tow setup, insurance questions',
+  },
+  {
+    intent: 'Temporary site or event facility',
+    leadOwner: 'Mobile office, restroom, shower, storage, event, or sanitation trailer supplier',
+    dataNeeded: 'Dates, location, trailer function, capacity, water/waste/power access, delivery constraints',
   },
   {
     intent: 'Finance or lease',

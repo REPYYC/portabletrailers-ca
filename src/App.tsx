@@ -34,6 +34,7 @@ import {
   provinces,
   routePages,
   safetySlugs,
+  specialtyTrailerCategories,
   useCases,
 } from './siteData';
 
@@ -221,7 +222,7 @@ function TrailerFinder() {
         copy="PortableTrailers.ca routes shoppers by use case, trailer style, tow setup, and buying stage so partner leads arrive with clearer intent."
       />
       <div className="finder-grid">
-        {categories.map((category) => {
+        {categories.slice(0, 14).map((category) => {
           const Icon = category.icon;
           return (
             <a className="category-card" href={category.slug} key={category.slug}>
@@ -232,6 +233,16 @@ function TrailerFinder() {
             </a>
           );
         })}
+      </div>
+      <div className="finder-extra">
+        <h3>More portable trailer types</h3>
+        <div className="pill-row">
+          {categories.slice(14).map((category) => (
+            <a href={category.slug} key={category.slug}>
+              {category.name}
+            </a>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -282,6 +293,50 @@ function ProductShowcase() {
                 Compare this trailer type
                 <ArrowRight size={16} />
               </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SpecialtyTrailerTypes() {
+  const grouped = [
+    {
+      title: 'Jobsite and crew trailers',
+      copy: 'Temporary office, crew, lunchroom, security, first aid, and storage trailer paths for construction and industrial sites.',
+      types: specialtyTrailerCategories.filter((category) => category.segment === 'site' || category.segment === 'service').slice(0, 9),
+    },
+    {
+      title: 'Event and facility trailers',
+      copy: 'Bathroom, washroom, restroom, shower, concession, food, mobile business, event, and disaster support trailer paths.',
+      types: specialtyTrailerCategories.filter((category) => category.segment === 'event' || category.slug.includes('disaster')),
+    },
+  ];
+
+  return (
+    <section className="section specialty-section">
+      <SectionHeader
+        eyebrow="Portable Site, Event, and Service Trailers"
+        title="Include the non-hauling trailer types buyers actually search for"
+        copy="PortableTrailers.ca now supports office, bathroom, washroom, shower, storage, lunchroom, crew, first-aid, security, concession, food, event, and disaster relief trailer demand."
+      />
+      <div className="specialty-grid">
+        {grouped.map((group) => (
+          <article className="specialty-panel" key={group.title}>
+            <h3>{group.title}</h3>
+            <p>{group.copy}</p>
+            <div className="specialty-link-grid">
+              {group.types.map((type) => {
+                const Icon = type.icon;
+                return (
+                  <a href={type.slug} key={type.slug}>
+                    <Icon size={18} />
+                    <span>{type.name}</span>
+                  </a>
+                );
+              })}
             </div>
           </article>
         ))}
@@ -854,6 +909,7 @@ function HomePage() {
       <Hero />
       <QuickCtas />
       <ProductShowcase />
+      <SpecialtyTrailerTypes />
       <TrailerMatchTool />
       <TowingPlanner />
       <TrailerFinder />

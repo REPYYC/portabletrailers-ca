@@ -445,6 +445,18 @@ details,
   color: var(--muted);
 }
 
+.finder-extra {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f9faf6;
+}
+
+.finder-extra h3 {
+  margin-bottom: 6px;
+}
+
 .split-section {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 0.7fr);
@@ -522,6 +534,48 @@ details,
 
 .product-section {
   background: #f4f5ee;
+}
+
+.specialty-section {
+  background: var(--white);
+}
+
+.specialty-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.specialty-panel {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f9faf6;
+}
+
+.specialty-link-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.specialty-link-grid a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 56px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--green-dark);
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.specialty-link-grid a:hover {
+  border-color: var(--green);
 }
 
 .compact-products {
@@ -1164,6 +1218,8 @@ details p {
   .use-grid,
   .market-grid,
   .three-col,
+  .specialty-grid,
+  .specialty-link-grid,
   .package-grid,
   .routing-grid,
   .launch-grid,
