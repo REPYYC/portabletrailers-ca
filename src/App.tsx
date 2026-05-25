@@ -29,6 +29,7 @@ import {
   launchChecklist,
   localMarketPages,
   officialSources,
+  pageDeepDives,
   primaryCta,
   provinceMarkets,
   provinces,
@@ -95,6 +96,39 @@ const marketQuoteHref = (market?: string) => {
 };
 
 const localPageFor = (market: string) => localMarketPages.find((page) => page.market === market);
+
+const fallbackDeepDive = (pageTitle: string) => ({
+  overview: `${pageTitle} shoppers usually need help turning a broad search into a quote-ready request. The useful details are the job, location, trailer function, timeline, tow or delivery setup, service needs, and whether the visitor is trying to buy, rent, finance, repair, or compare options.`,
+  useCases: [
+    'Compare the trailer type against similar options before contacting a partner',
+    'Prepare a better quote request with use case, location, timeline, and must-have features',
+    'Decide whether buying, renting, financing, repair, or parts support is the right next step',
+  ],
+  configurations: [
+    'Entry-level option for occasional use or short-term rental',
+    'Commercial-duty option for repeated business use',
+    'Custom or upgraded option when layout, access, security, weather, or load requirements matter',
+  ],
+  buyerQuestions: [
+    'What job does the trailer need to do first?',
+    'Where will it be used, delivered, parked, stored, loaded, serviced, or picked up?',
+    'What timeline, budget comfort, tow setup, site setup, or utility access should a partner know?',
+    'Which partner should respond: dealer, rental company, financing company, repair shop, parts store, or event/site supplier?',
+  ],
+  partnerAngles: [
+    'Quote lead for verified local provider',
+    'Rental lead for temporary or seasonal use',
+    'Finance lead for recurring business use',
+    'Service or parts lead when maintenance, inspection, or accessories are needed',
+  ],
+  avoidMistakes: [
+    'Submitting a vague quote request without location, use case, or timeline',
+    'Comparing only upfront cost instead of delivery, setup, service, storage, and operating needs',
+    'Assuming availability, regulations, or requirements without verifying with the right local source',
+  ],
+});
+
+const deepDiveFor = (slug: string, title: string) => pageDeepDives.find((page) => page.slug === slug) ?? fallbackDeepDive(title);
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -390,6 +424,65 @@ function RelatedProductStrip({ pageTitle }: { pageTitle: string }) {
             </div>
           </article>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function DeepDiveGuide({ page }: { page: NonNullable<typeof activePage> }) {
+  const guide = deepDiveFor(page.slug, page.title);
+
+  return (
+    <section className="section deep-dive-section">
+      <div className="deep-dive-intro">
+        <span className="eyebrow plain">Deeper Buying Guide</span>
+        <h2>{page.title}: what shoppers and partners need to know</h2>
+        <p>{guide.overview}</p>
+      </div>
+      <div className="deep-dive-grid">
+        <article>
+          <h3>Common use cases</h3>
+          <ul>
+            {guide.useCases.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+        <article>
+          <h3>Configuration decisions</h3>
+          <ul>
+            {guide.configurations.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+        <article>
+          <h3>Questions before quoting</h3>
+          <ul>
+            {guide.buyerQuestions.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+        <article>
+          <h3>Lead opportunities</h3>
+          <ul>
+            {guide.partnerAngles.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+      </div>
+      <div className="mistake-panel">
+        <h3>Common mistakes to avoid</h3>
+        <div className="cost-factor-grid">
+          {guide.avoidMistakes.map((item) => (
+            <span key={item}>
+              <ShieldAlert size={17} />
+              {item}
+            </span>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -1026,6 +1119,7 @@ function ContentPage() {
           <a href={activePage.group === 'local' ? marketQuoteHref(activePage.market) : '/#quote'}>Send this visitor to quote intake</a>
         </aside>
       </section>
+      <DeepDiveGuide page={activePage} />
       <RelatedProductStrip pageTitle={activePage.title} />
       {activePage.group === 'safety' && <SafetySection />}
     </main>

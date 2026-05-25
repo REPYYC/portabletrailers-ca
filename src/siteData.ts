@@ -35,6 +35,16 @@ export type RoutePage = {
   cityList?: string[];
 };
 
+export type PageDeepDive = {
+  slug: string;
+  overview: string;
+  useCases: string[];
+  configurations: string[];
+  buyerQuestions: string[];
+  partnerAngles: string[];
+  avoidMistakes: string[];
+};
+
 export type Category = {
   name: string;
   slug: string;
@@ -698,5 +708,122 @@ export const officialSources = [
   {
     label: 'Manitoba Public Insurance trailer safety guide',
     href: 'https://www.mpi.mb.ca/wp-content/uploads/2022/10/TrailerSafety.pdf',
+  },
+];
+
+export const pageDeepDives: PageDeepDive[] = [
+  {
+    slug: '/dump-trailers/',
+    overview:
+      'Dump trailers are usually shopped by people trying to save labour on gravel, soil, demolition debris, acreage cleanup, landscaping work, or contractor hauling. The right quote depends less on a generic size label and more on payload, axle rating, hydraulic setup, gate style, brake condition, tow vehicle fit, and how often the trailer will be loaded near capacity.',
+    useCases: [
+      'Landscaping crews hauling soil, mulch, sod, branches, and cleanup material',
+      'Contractors moving demolition debris, jobsite waste, gravel, and small equipment',
+      'Acreage owners handling firewood, manure, rock, dirt, and seasonal cleanup',
+      'Small businesses deciding whether to rent for occasional projects or finance for recurring paid work',
+    ],
+    configurations: [
+      'Single-axle light-duty dump trailer for lighter acreage and yard projects',
+      'Tandem-axle dump trailer for heavier loads, contractor use, and more frequent hauling',
+      'Low-profile dump trailer for easier loading and lower deck height',
+      'Deckover dump trailer where side clearance and wider loading matter',
+      'Barn door, spreader gate, tarp, ramps, battery charger, toolbox, and hydraulic options',
+    ],
+    buyerQuestions: [
+      'What material are you hauling most often, and is it dense like gravel or lighter like branches?',
+      'What is your tow vehicle rating, hitch rating, payload, brake controller setup, and tire condition?',
+      'Will the trailer be loaded by hand, skid steer, tractor, mini excavator, or loader?',
+      'Do you need rental flexibility, business financing, service support, parts, or a dealer quote?',
+      'Where will the trailer be stored, dumped, washed out, charged, and maintained?',
+    ],
+    partnerAngles: [
+      'Dealer lead for new or used dump trailer quotes',
+      'Rental lead for weekend gravel, soil, cleanup, or renovation projects',
+      'Finance lead for landscaping, construction, acreage service, and hauling businesses',
+      'Repair lead for hydraulics, brakes, lights, tires, bearings, gates, tarps, and battery systems',
+      'Parts lead for ramps, tarp kits, chargers, jacks, couplers, breakaway kits, and lights',
+    ],
+    avoidMistakes: [
+      'Shopping only by box length without checking payload after trailer weight',
+      'Ignoring how dense gravel, wet soil, or demolition debris can be',
+      'Forgetting brake controller, breakaway, battery, tire, and hydraulic maintenance',
+      'Assuming a rental trailer will be available without confirming dates, tow setup, and deposit requirements',
+    ],
+  },
+  {
+    slug: '/portable-office-trailers/',
+    overview:
+      'Portable office trailers are leased or rented for temporary workspace, project administration, security, sales, and site coordination. The right lead path depends on floor plan, delivery access, power, heat, stairs, washroom needs, furniture, site duration, and whether the buyer needs a short-term rental or longer lease.',
+    useCases: [
+      'Construction site offices for supervisors, estimators, safety staff, and meetings',
+      'Temporary sales offices for lots, developments, auctions, and seasonal operations',
+      'Overflow workspace during renovations, insurance claims, or facility moves',
+      'Security, dispatch, sign-in, and project coordination points on active sites',
+    ],
+    configurations: [
+      'Open office layout with desks and meeting space',
+      'Private office plus common area layout',
+      'Office trailer with washroom or lunchroom function',
+      'Security-focused trailer with visibility, lighting, heat, desk, and communications setup',
+      'Skirting, stairs, ramps, furniture, HVAC, and power connection options',
+    ],
+    buyerQuestions: [
+      'How many people need workspace, meeting space, or break space at the same time?',
+      'How long is the site active, and is rental, lease, or purchase the best fit?',
+      'What power, heat, washroom, water, internet, stair, and accessibility needs exist?',
+      'Can the delivery truck place the trailer safely, and is the ground prepared?',
+      'Who handles permits, utility hookup, cleaning, snow, skirting, and removal?',
+    ],
+    partnerAngles: [
+      'Mobile office rental lead for short or medium-term projects',
+      'Modular supplier lead for longer site needs and multiple-unit projects',
+      'Equipment dealer lead when office trailers are bundled with site equipment',
+      'Finance lead for companies buying recurring-use office trailers',
+      'Service lead for HVAC, stairs, skirting, locks, doors, and utility setup',
+    ],
+    avoidMistakes: [
+      'Treating office trailers like cargo trailers and forgetting utilities',
+      'Not confirming delivery access, ground conditions, stairs, and site placement',
+      'Underestimating heating, cooling, washroom, furniture, and cleaning requirements',
+      'Waiting too long to reserve during peak construction or event season',
+    ],
+  },
+  {
+    slug: '/portable-bathroom-trailers/',
+    overview:
+      'Portable bathroom trailers are often needed for events, construction sites, outdoor venues, rural properties, emergency response, and temporary facilities. A good quote should clarify stall count, guest or crew volume, water, waste, power, cleaning, delivery, winter operation, accessibility, and service intervals.',
+    useCases: [
+      'Weddings, festivals, markets, races, and outdoor venues',
+      'Construction sites and temporary work locations',
+      'Farms, acreages, camps, and rural operations',
+      'Emergency response, disaster support, and facility shutdowns',
+    ],
+    configurations: [
+      'Basic restroom trailer for small events or temporary work sites',
+      'Multi-stall washroom trailer for larger guest or crew capacity',
+      'Washroom trailer with handwashing, heat, fresh water, and waste tanks',
+      'Shower and restroom combination where longer occupancy or emergency support is needed',
+      'Accessible unit planning where site, guests, or regulations require it',
+    ],
+    buyerQuestions: [
+      'How many guests, workers, or users are expected, and over how many hours or days?',
+      'Is there water, waste, power, level ground, and service-truck access on site?',
+      'Does the trailer need heat, lighting, attendants, cleaning, or winter operation?',
+      'Are there accessibility, insurance, venue, municipal, or event requirements to verify?',
+      'What are the delivery, setup, pump-out, cleaning, and pickup windows?',
+    ],
+    partnerAngles: [
+      'Restroom trailer rental lead for events and temporary sites',
+      'Sanitation partner lead for cleaning, pump-out, and service schedule',
+      'Event supplier lead for bundled washroom, shower, office, and storage trailers',
+      'Emergency support lead for temporary facilities and disaster response',
+      'Venue lead for seasonal or recurring washroom trailer requirements',
+    ],
+    avoidMistakes: [
+      'Choosing only by stall count without discussing user volume and service interval',
+      'Forgetting power, water, waste, level ground, and access for service trucks',
+      'Assuming winter operation is standard without confirming heat and freeze protection',
+      'Skipping accessibility, venue, insurance, and municipal requirement checks',
+    ],
   },
 ];
